@@ -20,8 +20,11 @@ User _$UserFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$User {
+  @JsonKey(name: "FIRST_NAME")
   String get firstName => throw _privateConstructorUsedError;
+  @JsonKey(name: "LAST_NAME")
   String get lastName => throw _privateConstructorUsedError;
+  @JsonKey(name: "IS_ACTIVE")
   bool get isActive => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -34,7 +37,10 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res, User>;
   @useResult
-  $Res call({String firstName, String lastName, bool isActive});
+  $Res call(
+      {@JsonKey(name: "FIRST_NAME") String firstName,
+      @JsonKey(name: "LAST_NAME") String lastName,
+      @JsonKey(name: "IS_ACTIVE") bool isActive});
 }
 
 /// @nodoc
@@ -78,7 +84,10 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$$UserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String firstName, String lastName, bool isActive});
+  $Res call(
+      {@JsonKey(name: "FIRST_NAME") String firstName,
+      @JsonKey(name: "LAST_NAME") String lastName,
+      @JsonKey(name: "IS_ACTIVE") bool isActive});
 }
 
 /// @nodoc
@@ -114,19 +123,24 @@ class __$$UserImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UserImpl implements _User {
+class _$UserImpl extends _User {
   const _$UserImpl(
-      {required this.firstName, required this.lastName, this.isActive = false});
+      {@JsonKey(name: "FIRST_NAME") required this.firstName,
+      @JsonKey(name: "LAST_NAME") required this.lastName,
+      @JsonKey(name: "IS_ACTIVE") this.isActive = false})
+      : super._();
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
 
   @override
+  @JsonKey(name: "FIRST_NAME")
   final String firstName;
   @override
+  @JsonKey(name: "LAST_NAME")
   final String lastName;
   @override
-  @JsonKey()
+  @JsonKey(name: "IS_ACTIVE")
   final bool isActive;
 
   @override
@@ -165,19 +179,23 @@ class _$UserImpl implements _User {
   }
 }
 
-abstract class _User implements User {
+abstract class _User extends User {
   const factory _User(
-      {required final String firstName,
-      required final String lastName,
-      final bool isActive}) = _$UserImpl;
+      {@JsonKey(name: "FIRST_NAME") required final String firstName,
+      @JsonKey(name: "LAST_NAME") required final String lastName,
+      @JsonKey(name: "IS_ACTIVE") final bool isActive}) = _$UserImpl;
+  const _User._() : super._();
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
   @override
+  @JsonKey(name: "FIRST_NAME")
   String get firstName;
   @override
+  @JsonKey(name: "LAST_NAME")
   String get lastName;
   @override
+  @JsonKey(name: "IS_ACTIVE")
   bool get isActive;
   @override
   @JsonKey(ignore: true)
