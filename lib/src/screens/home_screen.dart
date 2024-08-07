@@ -10,12 +10,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   User? user;
-  User? user2;
   @override
   void initState() {
     super.initState();
-    user = const User(firstName: "Nguyễn Ngọc Tuyên", lastName: "Phàm Phàm");
-    user2 = const User(firstName: "Nguyễn Ngọc Tuyên", lastName: "Phàm Phàm");
   }
 
   @override
@@ -24,16 +21,20 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Center(
         child: GestureDetector(
           onTap: () {
-            // final body = jsonEncode();
+            final jsonData = {
+              "FIRST_NAME": "Nguyễn Ngọc Tuyên 123",
+              "LAST_NAME": "Phàm Phàm 123",
+              "IS_ACTIVE": false
+            };
+            user = User.fromJson(jsonData);
             print(user!.toJson());
-            print(User.fromJson(user!.toJson()));
+            print(user);
             user!.updateUser();
           },
           child: Container(
             height: 100,
             width: 100,
             color: Colors.amber,
-            child: Text(user!.isActive ? "active" : "unactive"),
           ),
         ),
       ),

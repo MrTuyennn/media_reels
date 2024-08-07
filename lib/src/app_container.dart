@@ -12,6 +12,7 @@ class _AppContainerState extends State<AppContainer> {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: HomeScreen(),
     );
   }
