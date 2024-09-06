@@ -43,6 +43,8 @@ dependencies:
     sdk: flutter
   intl: any
   dio: ^5.5.0+1
+  video_player: ^2.9.1
+  flutter_vlc_player: ^7.4.2
 
 dev_dependencies:
   flutter_test:
