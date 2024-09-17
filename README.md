@@ -50,8 +50,18 @@ lib/
 
 
 
-#### build ####
-flutter pub run build_runner build --> run freezed
-flutter pub upgrade --> update pub
-flutter pub add ... --> add pub
-flutter clean && flutter pub get && cd ./ios && rm -rf ./Pods && rm Podfile.lock && pod install && open Runner.xcworkspace && cd .. --> clear and restart Xcode
+#### flutter pub ####
+ ** flutter pub run build_runner build --> run freezed
+ ** flutter pub upgrade --> update pub
+ ** flutter pub add ...--> add pub
+ ** flutter clean && flutter pub get && cd ./ios && rm -rf ./Pods && rm Podfile.lock && pod install && open Runner.xcworkspace && cd .. --> clear and restart Xcode
+
+
+#### build app ANDROID ####
+flutter build apk --release --dart-define-from-file=.env/development.env
+flutter build apk --release --dart-define-from-file=.env/production.env
+
+
+#### build app IOS ####
+flutter build ipa --release --dart-define-from-file=.env/development.env
+flutter build ipa --release --dart-define-from-file=.env/production.envn  
