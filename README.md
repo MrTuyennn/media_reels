@@ -8,21 +8,21 @@ Media reels
 #### Structuring the Project
 
 lib/
-├── #bloc/
+├── bloc/
 │ ├── bloc_theme/
 │ └── bloc_auth/
-├── #core/
+├── core/
 │ -- app_bloc -- app_container -- app_router
 ├── l10n/
-└── #components/
-├── #models/
+└── components/
+├── models/
 │ ├── model_user/
 │ └── model_products/
-├── #networks
+├── networks
 │ -- dio_client -- error_code -- global_interceptors
-├── #repository
+├── repository
 │ -- repository_auth -- repository_products
-├── #utils
+├── utils
 
 #### bloc : 
  - handle logic state management
