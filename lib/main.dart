@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:media_reels/src/app_container.dart';
+import 'package:media_reels/app_provider.dart';
 
 void main() {
-  runApp(const AppContainer());
+  runApp(const AppProvider());
 }
