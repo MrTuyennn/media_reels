@@ -1,7 +1,9 @@
 // ignore_for_file: constant_identifier_names
 
 class AppStringRouters {
-  static const String SplashPage = '/';
+  static const String VideoPlayerPR = '/';
+
+  static const String SplashPage = '/splash';
 
   // path authentication
   static const String LoginPage = '/login';
