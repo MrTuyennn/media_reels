@@ -22,10 +22,9 @@ class VideoPlayerPRView: NSObject, FlutterPlatformView {
         // Parse arguments from Flutter
         let argsDict = args as? [String: Any]
         let link = argsDict?["link"] as? String ?? "No link"
-        let duration = argsDict?["duration"] as? String ?? "No duration"
         
         // Create SwiftUI View
-        let videoPlayerView = VideoPlayerView(link: link, duration: duration)
+        let videoPlayerView = VideoPlayerView(link: link,messenger: messenger!)
         
         // Embed SwiftUI View into a UIViewController
         _viewController = UIHostingController(rootView: videoPlayerView)
