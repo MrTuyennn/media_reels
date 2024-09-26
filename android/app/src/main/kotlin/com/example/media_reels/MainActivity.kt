@@ -11,6 +11,6 @@ class MainActivity: FlutterActivity() {
             .platformViewsController
             .registry
             .registerViewFactory("videoplayer",
-                VideoPlayerFactory(activity))
+                VideoPlayerFactory(activity,flutterEngine.dartExecutor.binaryMessenger))
     }
 }

@@ -17,13 +17,13 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   void initState() {
     super.initState();
     // Listen for status changes
-    // platform.setMethodCallHandler((call) async {
-    //   if (call.method == 'videoStatusChanged') {
-    //     final status = call.arguments as String;
-    //     // Handle your status update (play/pause) here
-    //     print('Video status changed: $status');
-    //   }
-    // });
+    platform.setMethodCallHandler((call) async {
+      if (call.method == 'videoStatusChanged') {
+        final status = call.arguments as String;
+        // Handle your status update (play/pause) here
+        print('Video status changed: $status');
+      }
+    });
   }
 
   @override
