@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -15,19 +17,20 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   void initState() {
     super.initState();
     // Listen for status changes
-    platform.setMethodCallHandler((call) async {
-      if (call.method == 'videoStatusChanged') {
-        final status = call.arguments as String;
-        // Handle your status update (play/pause) here
-        print('Video status changed: $status');
-      }
-    });
+    // platform.setMethodCallHandler((call) async {
+    //   if (call.method == 'videoStatusChanged') {
+    //     final status = call.arguments as String;
+    //     // Handle your status update (play/pause) here
+    //     print('Video status changed: $status');
+    //   }
+    // });
   }
+
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> creationParams = <String, dynamic>{
       'link':
-          'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+          'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     };
     return Scaffold(
       appBar: AppBar(
@@ -42,11 +45,18 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
           children: [
             SizedBox(
               height: 400,
-              child: UiKitView(
-                viewType: 'videoplayer',
-                creationParams: creationParams,
-                creationParamsCodec: const StandardMessageCodec(),
-              ),
+              child: Platform.isIOS
+                  ? UiKitView(
+                      viewType: 'videoplayer',
+                      creationParams: creationParams,
+                      creationParamsCodec: const StandardMessageCodec(),
+                    )
+                  : AndroidView(
+                      viewType: 'videoplayer',
+                      layoutDirection: TextDirection.ltr,
+                      creationParams: creationParams,
+                      creationParamsCodec: const StandardMessageCodec(),
+                    ),
             ),
             GestureDetector(
               onTap: () async {
