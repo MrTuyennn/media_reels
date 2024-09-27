@@ -6,7 +6,7 @@ part 'login_model.freezed.dart';
 @freezed
 class LoginModel with _$LoginModel {
   const factory LoginModel({
-    @Default("") String userName,
+    @Default("") String email,
     @Default("") String passWord,
   }) = _LoginModel;
 

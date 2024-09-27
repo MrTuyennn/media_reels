@@ -3,10 +3,10 @@ import 'package:media_reels/model/object_model/index.dart';
 
 class LoginViewModel extends ChangeNotifier {
   final formKey = GlobalKey<FormState>();
-  final LoginModel loginModel = const LoginModel(userName: "", passWord: "");
+  final LoginModel loginModel = const LoginModel(email: "", passWord: "");
 
   void updateUserName(String email) {
-    loginModel.copyWith(userName: email);
+    loginModel.copyWith(email: email);
   }
 
   void updatePassWord(String passWord) {

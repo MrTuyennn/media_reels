@@ -8,12 +8,12 @@ part of 'login_model.dart';
 
 _$LoginModelImpl _$$LoginModelImplFromJson(Map<String, dynamic> json) =>
     _$LoginModelImpl(
-      userName: json['userName'] as String? ?? "",
+      email: json['email'] as String? ?? "",
       passWord: json['passWord'] as String? ?? "",
     );
 
 Map<String, dynamic> _$$LoginModelImplToJson(_$LoginModelImpl instance) =>
     <String, dynamic>{
-      'userName': instance.userName,
+      'email': instance.email,
       'passWord': instance.passWord,
     };
