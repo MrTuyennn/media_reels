@@ -46,6 +46,10 @@ public class PlayerViewModel: ObservableObject {
         player.currentItem?.duration
     }
     
+    func timeControlStatus () -> Bool {
+        return player.timeControlStatus == .playing
+    }
+    
     
 }
 

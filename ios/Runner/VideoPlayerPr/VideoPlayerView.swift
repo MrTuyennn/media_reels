@@ -63,7 +63,9 @@ struct VideoPlayerView: View {
         VStack {
             VideoPlayer(player: modelVideoPlayer.player)
         }.onAppear{
-            modelVideoPlayer.play()
+            if modelVideoPlayer.player.timeControlStatus != .playing {
+                modelVideoPlayer.play()
+            }
         }
     }
 }
