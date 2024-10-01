@@ -26,18 +26,6 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
 
-class AppInfo {
-    var file : String = ""
-    var size: String = ""
-
-
-    fun toJson(): Map<String, Any> {
-        return mapOf(
-            "versionNumber" to file,
-            "buildNumber" to size,
-        )
-    }
-}
 
 class MainActivity: FlutterFragmentActivity() {
     private lateinit var methodChannelResult: MethodChannel.Result
@@ -145,11 +133,10 @@ class MainActivity: FlutterFragmentActivity() {
         }
 
     private fun fileFromContentUri(context: Context, contentUri: Uri): File {
-
+        val fileName = getFileNameFromUri(context, contentUri) ?: "temporary_file"
         val fileExtension = getFileExtension(context, contentUri)
-        val fileName = "temporary_file" + if (fileExtension != null) ".$fileExtension" else ""
+        val tempFile = File(context.cacheDir, "$fileName${if (fileExtension != null) ".$fileExtension" else ""}")
 
-        val tempFile = File(context.cacheDir, fileName)
         tempFile.createNewFile()
 
         try {
@@ -171,6 +158,17 @@ class MainActivity: FlutterFragmentActivity() {
     private fun getFileExtension(context: Context, uri: Uri): String? {
         val fileType: String? = context.contentResolver.getType(uri)
         return MimeTypeMap.getSingleton().getExtensionFromMimeType(fileType)
+    }
+
+    private fun getFileNameFromUri(context: Context, uri: Uri): String? {
+        var fileName: String? = null
+        val cursor = context.contentResolver.query(uri, null, null, null, null)
+        cursor?.use {
+            if (it.moveToFirst()) {
+                fileName = it.getString(it.getColumnIndexOrThrow("_display_name"))
+            }
+        }
+        return fileName
     }
 
     @Throws(IOException::class)
