@@ -27,14 +27,13 @@ import java.io.InputStream
 import java.io.OutputStream
 
 
-class MainActivity: FlutterFragmentActivity() {
+class MainActivity : FlutterFragmentActivity() {
     private lateinit var methodChannelResult: MethodChannel.Result
-    lateinit var imagesInfo: Array<AppInfo>
-
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
 
-        val methodChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "iamgePickerPlatform")
+        val methodChannel =
+            MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "iamgePickerPlatform")
         methodChannel.setMethodCallHandler { call, result ->
             methodChannelResult = result
             when (call.method) {
@@ -61,8 +60,10 @@ class MainActivity: FlutterFragmentActivity() {
         flutterEngine
             .platformViewsController
             .registry
-            .registerViewFactory("videoplayer",
-                VideoPlayerFactory(this,flutterEngine.dartExecutor.binaryMessenger))
+            .registerViewFactory(
+                "videoplayer",
+                VideoPlayerFactory(this, flutterEngine.dartExecutor.binaryMessenger)
+            )
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
@@ -95,18 +96,20 @@ class MainActivity: FlutterFragmentActivity() {
     }
 
     private val newPhotoPicker =
-        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
-            val result = uri?.let { fileFromContentUri(this, it) }
-            Log.e("----> uri","$result")
-//            methodChannelResult.success(uri)
-            // Trả về một List thay vì Map
-            val imageInfo = mapOf(
-                "url" to result?.absolutePath,
-                "width" to 100,
-                "height" to 100
-            )
-            val imageList = listOf(imageInfo)
-            methodChannelResult.success(imageList)
+        registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(10)) { uris: List<Uri>? ->
+            if (uris.isNullOrEmpty()) {
+                methodChannelResult.error("NO_IMAGES", "No images were selected", null)
+            } else {
+                val imageList = uris.map { uri ->
+                    val result = fileFromContentUri(this, uri)
+                    mapOf(
+                        "url" to result.absolutePath,
+                        "width" to 100, // Replace with actual image width if needed
+                        "height" to 100 // Replace with actual image height if needed
+                    )
+                }
+                methodChannelResult.success(imageList)
+            }
         }
 
     private fun launchNewPhotoPicker() {
@@ -135,7 +138,10 @@ class MainActivity: FlutterFragmentActivity() {
     private fun fileFromContentUri(context: Context, contentUri: Uri): File {
         val fileName = getFileNameFromUri(context, contentUri) ?: "temporary_file"
         val fileExtension = getFileExtension(context, contentUri)
-        val tempFile = File(context.cacheDir, "$fileName${if (fileExtension != null) ".$fileExtension" else ""}")
+        val tempFile = File(
+            context.cacheDir,
+            "$fileName${if (fileExtension != null) ".$fileExtension" else ""}"
+        )
 
         tempFile.createNewFile()
 
