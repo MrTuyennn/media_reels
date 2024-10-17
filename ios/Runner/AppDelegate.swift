@@ -22,7 +22,7 @@ import PhotosUI
         // ----- video player ----- //
         weak var registrarVideoPlayer = self.registrar(forPlugin: "plugin-videoplayer")
         let factoryVideoPlayer = VideoPlayerPRFactory(messenger: registrarVideoPlayer!.messenger())
-        self.registrar(forPlugin: "_videoplayer")!.register(factoryVideoPlayer, withId: "videoplayer")
+        self.registrar(forPlugin: "_videoplayer")!.register(factoryVideoPlayer, withId: "vlc")
         // ----- video player ----- //
         /*** view manager module*/
         

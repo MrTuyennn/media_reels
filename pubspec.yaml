@@ -43,6 +43,7 @@ dependencies:
   json_annotation: ^4.9.0
   dio: ^5.5.0+1
   logger: ^2.4.0
+  flutter_secure_storage: ^4.2.1
 
 dev_dependencies:
   flutter_test:
