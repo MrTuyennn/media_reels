@@ -32,6 +32,8 @@ class MainActivity : FlutterFragmentActivity() {
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
 
+        Sound(this,flutterEngine.dartExecutor.binaryMessenger)
+
         val methodChannel =
             MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "iamgePickerPlatform")
         methodChannel.setMethodCallHandler { call, result ->

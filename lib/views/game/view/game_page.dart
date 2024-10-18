@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:math' as math;
 
 import 'package:media_reels/core/log/log.dart';
@@ -13,6 +14,8 @@ class GamePage extends StatefulWidget {
 
 class _GamePageState extends State<GamePage>
     with SingleTickerProviderStateMixin {
+  static const platform = MethodChannel('actionSong');
+
   List<double> sectors = [100, 20, 0.15, 0.5, 50, 20, 100, 50, 20, 50];
   int randomSectorIndex = -1;
   List<double> sectorRadians = [];
@@ -287,6 +290,7 @@ class _GamePageState extends State<GamePage>
                 child: Text(spinning ? 'Spining' : 'spin'),
               ),
               onTap: () {
+                platform.invokeMethod('playSong');
                 setState(() {
                   if (!spinning) {
                     spin();
@@ -304,6 +308,7 @@ class _GamePageState extends State<GamePage>
                 child: const Text('Reset'),
               ),
               onTap: () {
+                platform.invokeMethod('pauseSong');
                 if (spinning) return;
                 setState(() {
                   resetGame();
