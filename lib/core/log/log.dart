@@ -21,7 +21,7 @@ class Log {
     }
   }
 
-  static void info(String message) {
+  static void info(dynamic message) {
     _logger.i(message);
   }
 

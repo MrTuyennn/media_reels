@@ -11,4 +11,5 @@ class AppStringRouters {
   // path app container
   static const String HomePage = '/home';
   static const String GamePage = '/game';
+  static const String SpinV2Page = '/spin_v2';
 }

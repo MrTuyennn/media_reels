@@ -13,10 +13,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.media_reels.ImagePicker.ImagePicker
-import com.example.media_reels.ImagePicker.ImagePicker.Companion
 import com.example.media_reels.VideoPlayerPr.VideoPlayerFactory
-import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
