@@ -22,6 +22,9 @@ class _AppBlocProviderState extends State<AppBlocProvider> {
         BlocProvider<LocaleBloc>(
           create: (context) => LocaleBloc(),
         ),
+        BlocProvider<ReelsBloc>(
+          create: (context) => ReelsBloc(),
+        ),
       ],
       child: widget.child,
     );

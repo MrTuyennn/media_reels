@@ -12,4 +12,5 @@ class AppStringRouters {
   static const String HomePage = '/home';
   static const String GamePage = '/game';
   static const String SpinV2Page = '/spin_v2';
+  static const String MultiReelsPage = '/multi_reels';
 }

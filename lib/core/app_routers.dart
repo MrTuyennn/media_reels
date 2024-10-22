@@ -6,7 +6,7 @@ class AppRouters {
   static Route generateRoutes(RouteSettings settings) {
     switch (settings.name) {
       case AppStringRouters.VideoPlayerPR:
-        return _buildPageRoute(const SpinV2Page(), settings);
+        return _buildPageRoute(const MultiReels(), settings);
       case AppStringRouters.SplashPage:
         return _buildPageRoute(const SplashPage(), settings);
       case AppStringRouters.LoginPage:
@@ -15,6 +15,8 @@ class AppRouters {
         return _buildPageRoute(const HomePage(), settings);
       case AppStringRouters.GamePage:
         return _buildPageRoute(const GamePage(), settings);
+      case AppStringRouters.SpinV2Page:
+        return _buildPageRoute(const SpinV2Page(), settings);
       default:
         return _buildPageRoute(const NotFoundPage(), settings);
     }
