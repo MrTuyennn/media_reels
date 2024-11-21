@@ -11,6 +11,7 @@ part 'reels_state.dart';
 class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
   ReelsBloc() : super(ReelsState()) {
     on<_InitReels>(_initReels);
+    on<_DisposeReels>(_disposeReels);
   }
 
   void _initReels(_InitReels event, Emitter emit) {
@@ -18,8 +19,15 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
       VideoPlayerController? videoController =
           VideoPlayerController.networkUrl(Uri.parse(event.url));
       videoController.initialize();
+      videoController.setLooping(true);
       videoController.play();
       emit(state.copyWith(controllerVideo: videoController));
     } catch (e) {}
+  }
+
+  void _disposeReels(_DisposeReels event, Emitter emit) {
+    final VideoPlayerController? controller = state.controllerVideo;
+    controller?.dispose();
+    emit(state.copyWith(controllerVideo: null));
   }
 }

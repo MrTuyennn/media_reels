@@ -25,11 +25,11 @@ class Log {
     _logger.i(message);
   }
 
-  static void warning(String message) {
+  static void warning(dynamic message) {
     _logger.w(message);
   }
 
-  static void error(String message, [dynamic error, StackTrace? stackTrace]) {
+  static void error(dynamic message, [dynamic error, StackTrace? stackTrace]) {
     _logger.e(message, error: error, stackTrace: stackTrace);
   }
 }

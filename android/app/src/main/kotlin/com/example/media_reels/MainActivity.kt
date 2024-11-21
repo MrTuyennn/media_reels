@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.util.Log
@@ -13,6 +14,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.media_reels.CapView.CapView
 import com.example.media_reels.VideoPlayerPr.VideoPlayerFactory
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
@@ -49,6 +51,16 @@ class MainActivity : FlutterFragmentActivity() {
                             )
                         }
                     }
+                }
+                "captureView" -> {
+                    val imageBytes: ByteArray? = call.argument("imageBytes")
+                    // Tạo bitmap từ byte array
+                    val bitmap = imageBytes?.let { BitmapFactory.decodeByteArray(imageBytes, 0, it.size) }
+                    // Gọi hàm save trong class CapView
+                    if (bitmap != null) {
+                        CapView(this).saveBitmapImage(bitmap)
+                    }
+                    result.success("View captured successfully")
                 }
 
                 else -> {
