@@ -26,12 +26,90 @@ class ImagePicker: PHPickerViewControllerDelegate {
                 let vcController: PHPickerViewController = PHPickerViewController(configuration: config)
                 vcController.delegate = self
                 controller.present(vcController,animated: true)
+            } else if call.method == "captureView" {
+                if let args = call.arguments as? [String: Any],
+                       let imageBytes = args["imageBytes"] as? FlutterStandardTypedData {
+                    self.handleCaptureView(call, result: result)
+                        result("Image received and processed in native code")
+                    } else {
+                        result(FlutterError(code: "INVALID_ARGUMENT", message: "Invalid arguments for captureView", details: nil))
+                    }
+//                guard let args = call.arguments as? [String: Any],
+//                                     let imageBytes = args["imageBytes"] as? FlutterStandardTypedData else {
+//                                   result(FlutterError(code: "INVALID_ARGUMENTS", message: "Invalid arguments", details: nil))
+//                                   return
+//                               }
+//                               
+//                               // Convert image bytes to UIImage
+//                               let data = imageBytes.data
+//                               if let image = UIImage(data: data) {
+//                                   // Save to Photos
+//                                   UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+//                                   result("Image saved successfully")
+//                               } else {
+//                                   result(FlutterError(code: "IMAGE_CONVERSION_FAILED", message: "Failed to convert image data", details: nil))
+//                               }
             } else {
                 result(FlutterMethodNotImplemented)
                 return
             }
         })
     }
+    
+    private func handleCaptureView(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+        do {
+          // Parse arguments safely
+          guard let args = call.arguments as? [String: Any],
+                let imageBytes = args["imageBytes"] as? FlutterStandardTypedData else {
+            throw NSError(domain: "ImageCaptureError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid arguments for captureView"])
+          }
+
+          print("Received imageBytes: \(imageBytes.data.count) bytes")
+          
+          // Proceed with your logic here (e.g., saving the image)
+          self.handleImageCapture(imageBytes.data)
+
+          result("Image received and processed")
+          
+        } catch let error as NSError {
+          // Handle any errors and log them
+          print("Error processing captureView: \(error.localizedDescription)")
+          result(FlutterError(code: "CAPTURE_VIEW_ERROR", message: "Failed to capture view", details: error.localizedDescription))
+        }
+      }
+    
+    private func handleImageCapture(_ imageData: Data) {
+           guard let view = createViewFromImageData(imageData) else {
+               flutterResult?(FlutterError(code: "VIEW_ERROR", message: "Failed to create view from data", details: nil))
+               return
+           }
+
+           guard let capturedImage = captureUIView(view) else {
+               flutterResult?(FlutterError(code: "CAPTURE_ERROR", message: "Failed to capture view", details: nil))
+               return
+           }
+
+           // Save the captured image
+           UIImageWriteToSavedPhotosAlbum(capturedImage, nil, nil, nil)
+           flutterResult?("Image captured and saved successfully")
+       }
+
+       // Generate a UIView from Flutter-sent data
+       private func createViewFromImageData(_ imageData: Data) -> UIView? {
+           guard let image = UIImage(data: imageData) else { return nil }
+           let imageView = UIImageView(image: image)
+           imageView.contentMode = .scaleAspectFit
+           imageView.frame = CGRect(origin: .zero, size: image.size) // Use image size to define view size
+           return imageView
+       }
+
+       // Capture UIView as UIImage
+       private func captureUIView(_ view: UIView) -> UIImage? {
+           let renderer = UIGraphicsImageRenderer(bounds: view.bounds)
+           return renderer.image { context in
+               view.layer.render(in: context.cgContext)
+           }
+       }
     
     
     
