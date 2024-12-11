@@ -6,3 +6,6 @@ export './game/view/game_page.dart';
 export './game/view/spin_v2_page.dart';
 export './reels/view/multi_reels.dart';
 export './cap_view/cap_view_page.dart';
+export './keyboard_view/keyboar_view.dart';
+export './keyboard_view/keyboard_view2.dart';
+export './keyboard_view/custom_keyboard.dart';

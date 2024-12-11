@@ -6,7 +6,7 @@ class AppRouters {
   static Route generateRoutes(RouteSettings settings) {
     switch (settings.name) {
       case AppStringRouters.VideoPlayerPR:
-        return _buildPageRoute(const CapViewPage(), settings);
+        return _buildPageRoute(const CustomKeyboard(), settings);
       case AppStringRouters.SplashPage:
         return _buildPageRoute(const SplashPage(), settings);
       case AppStringRouters.LoginPage:
