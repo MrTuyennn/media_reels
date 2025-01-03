@@ -33,6 +33,15 @@ class _CapViewPageState extends State<CapViewPage> {
     }
   }
 
+  Future<void> pickerImage() async {
+    try {
+      // Send image bytes to native for saving
+      await platform.invokeMethod('pickImage');
+    } on PlatformException catch (e) {
+      print("Failed to capture view: ${e.message}");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,6 +74,10 @@ class _CapViewPageState extends State<CapViewPage> {
           ),
           ElevatedButton(
             onPressed: captureView,
+            child: const Text("Capture View"),
+          ),
+          ElevatedButton(
+            onPressed: pickerImage,
             child: const Text("Capture View"),
           ),
         ],

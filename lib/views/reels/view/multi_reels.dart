@@ -19,7 +19,7 @@ class _MultiReelsState extends State<MultiReels> {
     super.initState();
     _reelsBloc = context.read<ReelsBloc>();
     _reelsBloc!.add(const ReelsEvent.initReels(
-        'https://cfvod.livemalltv.com/live_test/u240613143132831-002/HLS/r240716150813033-002.m3u8'));
+        'https://cfvod.livemalltv.com/dev/HLS/test.m3u8'));
   }
 
   // Tính toán tỷ lệ để video chiếm toàn bộ màn hình
@@ -55,16 +55,50 @@ class _MultiReelsState extends State<MultiReels> {
                       final scaleW = contranst.maxWidth / value.size.width;
                       final scaleH = contranst.maxHeight / value.size.height;
 
-                      final result = (scaleH / scaleW) * (1.005);
-                      Log.error("max $result");
+                      final resultV =
+                          (contranst.maxHeight / contranst.maxWidth);
+                      final resultH =
+                          (contranst.maxWidth / contranst.maxHeight);
+
+                      Log.error("max $scaleW");
+                      // Log.error("max $");
+                      Log.error(scaleH / scaleW);
+                      return Stack(
+                        children: <Widget>[
+                          SizedBox.expand(
+                            child: FittedBox(
+                              fit: BoxFit.cover,
+                              child: SizedBox(
+                                width: value.size.width,
+                                height: value.size.height,
+                                child: VideoPlayer(state.controllerVideo!),
+                              ),
+                            ),
+                          ),
+                          //FURTHER IMPLEMENTATION
+                        ],
+                      );
+                      return SizedBox(
+                        height: contranst.maxHeight,
+                        width: contranst.maxWidth,
+                        child: VideoPlayer(state.controllerVideo!),
+                      );
+                      // return AspectRatio(
+                      //   aspectRatio: value.aspectRatio,
+                      //   child: VideoPlayer(state.controllerVideo!),
+                      // );
                       return Center(
                         child: Transform.scale(
-                          scale: result,
+                          scale: scaleH / scaleW,
                           child: AspectRatio(
                             aspectRatio: value.aspectRatio,
                             child: VideoPlayer(state.controllerVideo!),
                           ),
                         ),
+                      );
+                      return AspectRatio(
+                        aspectRatio: value.aspectRatio,
+                        child: VideoPlayer(state.controllerVideo!),
                       );
                     },
                   )
