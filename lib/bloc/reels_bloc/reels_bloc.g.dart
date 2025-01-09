@@ -8,12 +8,15 @@ part of 'reels_bloc.dart';
 
 _$ReelsStateImpl _$$ReelsStateImplFromJson(Map<String, dynamic> json) =>
     _$ReelsStateImpl(
-      controllerVideo: const VideoPlayerControllerConverter()
-          .fromJson(json['controllerVideo'] as String?),
+      lsReel: (json['lsReel'] as List<dynamic>?)
+              ?.map((e) => ReelModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      currentVideo: (json['currentVideo'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$ReelsStateImplToJson(_$ReelsStateImpl instance) =>
     <String, dynamic>{
-      'controllerVideo': const VideoPlayerControllerConverter()
-          .toJson(instance.controllerVideo),
+      'lsReel': instance.lsReel,
+      'currentVideo': instance.currentVideo,
     };

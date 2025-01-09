@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:media_reels/core/log/log.dart';
 
 class GlobalInterceptors extends Interceptor {
   @override
@@ -18,6 +19,7 @@ class GlobalInterceptors extends Interceptor {
 
   @override
   Future onError(DioException err, ErrorInterceptorHandler handler) async {
+    Log.info(err);
     super.onError(err, handler);
   }
 }

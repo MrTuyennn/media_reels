@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:media_reels/core/app_string_routers.dart';
+import 'package:media_reels/views/cache/cache_image_page.dart';
 import 'package:media_reels/views/index.dart';
 
 class AppRouters {
   static Route generateRoutes(RouteSettings settings) {
     switch (settings.name) {
       case AppStringRouters.VideoPlayerPR:
-        return _buildPageRoute(const CapViewPage(), settings);
+        return _buildPageRoute(const MultiReels(), settings);
       case AppStringRouters.SplashPage:
         return _buildPageRoute(const SplashPage(), settings);
       case AppStringRouters.LoginPage:
