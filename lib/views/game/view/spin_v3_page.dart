@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:media_reels/core/log/log.dart';
 
 class SpinV3Page extends StatefulWidget {
@@ -72,7 +72,9 @@ class _SpinV3PageState extends State<SpinV3Page>
       // Tính toán góc dừng (thêm số vòng quay đầy đủ)
       final double anglePerSegment = 2 * pi / values.length;
       final int reversedIndex = values.length - 1 - targetIndex;
+      // ignore: unused_local_variable
       final double targetAngle = reversedIndex * anglePerSegment;
+      // ignore: unused_local_variable
       const double fullRotations = 1; // Số vòng quay đầy đủ
       const double finalAngle = -(pi / 6) * 6 - (pi / 12);
 

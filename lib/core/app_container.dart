@@ -21,7 +21,6 @@ class _AppContainerState extends State<AppContainer> {
       // get state Locale App
       final stateLocale = context.watch<LocaleBloc>().state.locale;
       final stateMode = context.watch<ThemeBloc>().state.themeMode;
-      print(stateMode);
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         locale: stateLocale,

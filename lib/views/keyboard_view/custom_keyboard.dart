@@ -15,10 +15,10 @@ class _CustomKeyboardState extends State<CustomKeyboard> {
 
   @override
   void initState() {
-    // _focusNode = FocusNode()
-    //   ..addListener(() {
-    //     if (_focusNode.hasFocus) activeEmojiGird = false;
-    //   });
+    _focusNode = FocusNode()
+      ..addListener(() {
+        if (_focusNode.hasFocus) activeEmojiGird = false;
+      });
     super.initState();
   }
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:media_reels/core/app_string_routers.dart';
-import 'package:media_reels/views/cache/cache_image_page.dart';
 import 'package:media_reels/views/index.dart';
 
 class AppRouters {
