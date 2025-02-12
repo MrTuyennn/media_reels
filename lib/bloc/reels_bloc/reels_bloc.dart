@@ -107,10 +107,12 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
     if (state.lsReel.length > event.index && event.index >= 0) {
       final updateMap = state.videoController ?? {};
       final AVController? controller = updateMap[event.index];
-      controller!.pause();
-      controller.seekTo(Duration.zero);
-      updateMap[event.index] = controller;
-      emit(state.copyWith(videoController: updateMap));
+      if (controller != null) {
+        controller.pause();
+        controller.seekTo(Duration.zero);
+        updateMap[event.index] = controller;
+        emit(state.copyWith(videoController: updateMap));
+      }
     }
   }
 
@@ -118,10 +120,12 @@ class ReelsBloc extends Bloc<ReelsEvent, ReelsState> {
     if (state.lsReel.length > event.index && event.index >= 0) {
       final updateMap = state.videoController ?? {};
       final AVController? controller = updateMap[event.index];
-      controller!.dispose();
-      controller.removeListener(() {});
-      updateMap.remove(event.index);
-      emit(state.copyWith(videoController: updateMap));
+      if (controller != null) {
+        controller.dispose();
+        controller.removeListener(() {});
+        updateMap.remove(event.index);
+        emit(state.copyWith(videoController: updateMap));
+      }
     }
   }
 
