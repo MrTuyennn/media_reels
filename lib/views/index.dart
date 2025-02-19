@@ -9,3 +9,4 @@ export './cap_view/cap_view_page.dart';
 export './keyboard_view/keyboar_view.dart';
 export './keyboard_view/keyboard_view2.dart';
 export './keyboard_view/custom_keyboard.dart';
+export './test/test_isolates.dart';
