@@ -1,0 +1,1 @@
+package com.example.media_reels.Utilsclass AppContanst {    companion object {        const val CHANNEL_APP_GEOLOCATION = "ChannelAppGeoLocation"        const val METHOD_PERMISSION_GEOLOCATION = "methodPermissionGeoLocation"        const val METHOD_GET_GEOLOCATION ="methodGETGEOLOCATION"    }}

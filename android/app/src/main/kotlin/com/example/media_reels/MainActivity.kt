@@ -1,5 +1,6 @@
 package com.example.media_reels
 
+import GeoLocation
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -12,6 +13,7 @@ import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.media_reels.CapView.CapView
@@ -28,10 +30,12 @@ import java.io.OutputStream
 
 class MainActivity : FlutterFragmentActivity() {
     private lateinit var methodChannelResult: MethodChannel.Result
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
 
         Sound(this,flutterEngine.dartExecutor.binaryMessenger)
+        GeoLocation(this,flutterEngine.dartExecutor.binaryMessenger)
 
         val methodChannel =
             MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "iamgePickerPlatform")
