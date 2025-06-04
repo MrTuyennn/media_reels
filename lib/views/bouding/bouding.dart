@@ -18,15 +18,8 @@ class Bouding extends StatefulWidget {
 }
 
 class _BoudingState extends State<Bouding> {
-  List<Offset>? hexagonPoints;
-
-  Offset setA = const Offset(0, 0);
-  Offset setB = const Offset(0, 0);
-  Offset setC = const Offset(0, 0);
-  Offset setD = const Offset(0, 0);
-  Offset setE = const Offset(0, 0);
-  Offset setF = const Offset(0, 0);
-  Offset setG = const Offset(0, 0);
+  /// List of hexagon corner points in order
+  late List<Offset> points;
 
   @override
   void initState() {
@@ -36,12 +29,14 @@ class _BoudingState extends State<Bouding> {
       final w = MediaQuery.of(context).size.width;
 
       setState(() {
-        setA = widget.a ?? Offset(w / 2, h * 0.25);
-        setB = widget.b ?? Offset(w / 2 + 20, h * 0.25);
-        setC = widget.c ?? Offset(w / 2 + 40, h * 0.25 + 40);
-        setD = widget.d ?? Offset(w / 2 + 20, h * 0.25 + 60);
-        setE = widget.e ?? Offset(w / 2, h * 0.25 + 60);
-        setF = widget.f ?? Offset(w / 2 - 20, h * 0.25 + 40);
+        points = [
+          widget.a ?? Offset(w / 2, h * 0.25),
+          widget.b ?? Offset(w / 2 + 20, h * 0.25),
+          widget.c ?? Offset(w / 2 + 40, h * 0.25 + 40),
+          widget.d ?? Offset(w / 2 + 20, h * 0.25 + 60),
+          widget.e ?? Offset(w / 2, h * 0.25 + 60),
+          widget.f ?? Offset(w / 2 - 20, h * 0.25 + 40),
+        ];
       });
     });
   }
@@ -63,21 +58,15 @@ class _BoudingState extends State<Bouding> {
           child: Stack(
             children: [
               CustomPaint(
-                painter: PolygonPainter(
-                  a: setA,
-                  b: setB,
-                  c: setC,
-                  d: setD,
-                  e: setE,
-                  f: setF,
+                painter: PolygonPainter(points: points),
+              ),
+              ...List.generate(
+                points.length,
+                (i) => _buildDraggablePoint(
+                  points[i],
+                  (delta) => points[i] += delta,
                 ),
               ),
-              _buildDraggablePoint(setA, (delta) => setA += delta),
-              _buildDraggablePoint(setB, (delta) => setB += delta),
-              _buildDraggablePoint(setC, (delta) => setC += delta),
-              _buildDraggablePoint(setD, (delta) => setD += delta),
-              _buildDraggablePoint(setE, (delta) => setE += delta),
-              _buildDraggablePoint(setF, (delta) => setF += delta),
             ],
           ),
         ),
@@ -119,30 +108,24 @@ class _BoudingState extends State<Bouding> {
 }
 
 class PolygonPainter extends CustomPainter {
-  final Offset a, b, c, d, e, f;
+  /// Points that make up the polygon in order
+  final List<Offset> points;
 
   PolygonPainter({
-    required this.a,
-    required this.b,
-    required this.c,
-    required this.d,
-    required this.e,
-    required this.f,
+    required this.points,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
-    final points = [a, b, c, d, e, f];
-
-    if (points.any((e) => e == Offset.zero)) return;
+    if (points.length < 6 || points.any((e) => e == Offset.zero)) return;
 
     final path = Path()
-      ..moveTo(a.dx, a.dy)
-      ..lineTo(b.dx, b.dy)
-      ..lineTo(c.dx, c.dy)
-      ..lineTo(d.dx, d.dy)
-      ..lineTo(e.dx, e.dy)
-      ..lineTo(f.dx, f.dy)
+      ..moveTo(points[0].dx, points[0].dy)
+      ..lineTo(points[1].dx, points[1].dy)
+      ..lineTo(points[2].dx, points[2].dy)
+      ..lineTo(points[3].dx, points[3].dy)
+      ..lineTo(points[4].dx, points[4].dy)
+      ..lineTo(points[5].dx, points[5].dy)
       ..close();
 
     final fillPaint = Paint()
@@ -160,11 +143,10 @@ class PolygonPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant PolygonPainter oldDelegate) {
-    return a != oldDelegate.a ||
-        b != oldDelegate.b ||
-        c != oldDelegate.c ||
-        d != oldDelegate.d ||
-        e != oldDelegate.e ||
-        f != oldDelegate.f;
+    if (oldDelegate.points.length != points.length) return true;
+    for (var i = 0; i < points.length; i++) {
+      if (points[i] != oldDelegate.points[i]) return true;
+    }
+    return false;
   }
 }
