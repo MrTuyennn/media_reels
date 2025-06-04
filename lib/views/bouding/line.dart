@@ -14,8 +14,8 @@ class Line extends StatefulWidget {
 }
 
 class _LineState extends State<Line> {
-  Offset setA = const Offset(0, 0);
-  Offset setB = const Offset(0, 0);
+  /// End points of the line
+  List<Offset> points = [Offset.zero, Offset.zero];
 
   @override
   void initState() {
@@ -25,8 +25,10 @@ class _LineState extends State<Line> {
       final w = MediaQuery.of(context).size.width;
 
       setState(() {
-        setA = widget.a ?? Offset(10, h / 2);
-        setB = widget.b ?? Offset(w - 10, h / 2);
+        points = [
+          widget.a ?? Offset(10, h / 2),
+          widget.b ?? Offset(w - 10, h / 2),
+        ];
       });
     });
   }
@@ -47,10 +49,12 @@ class _LineState extends State<Line> {
           child: Stack(
             children: [
               CustomPaint(
-                painter: ShapePainter(a: setA, b: setB),
+                painter: ShapePainter(points: points),
               ),
-              _buildDraggablePoint(setA, (delta) => setA += delta),
-              _buildDraggablePoint(setB, (delta) => setB += delta),
+              ...List.generate(
+                points.length,
+                (i) => _buildDraggablePoint(i),
+              ),
             ],
           ),
         ),
@@ -58,7 +62,8 @@ class _LineState extends State<Line> {
     );
   }
 
-  Widget _buildDraggablePoint(Offset offset, void Function(Offset) onUpdate) {
+  Widget _buildDraggablePoint(int index) {
+    final offset = points[index];
     return Transform.translate(
       offset: offset - const Offset(15, 15),
       child: GestureDetector(
@@ -75,7 +80,7 @@ class _LineState extends State<Line> {
             dy.clamp(0.0, h),
           );
 
-          setState(() => onUpdate(newOffset - offset));
+          setState(() => points[index] = newOffset);
         },
         child: Container(
           margin: const EdgeInsets.all(10),
@@ -92,11 +97,11 @@ class _LineState extends State<Line> {
 }
 
 class ShapePainter extends CustomPainter {
-  final Offset a, b;
+  /// Points representing the line's start and end
+  final List<Offset> points;
 
   ShapePainter({
-    required this.a,
-    required this.b,
+    required this.points,
   });
 
   @override
@@ -106,14 +111,17 @@ class ShapePainter extends CustomPainter {
       ..strokeWidth = 3
       ..strokeCap = StrokeCap.round;
 
-    Offset startingPoint = a;
-    Offset endingPoint = b;
+    if (points.length < 2) return;
 
-    canvas.drawLine(startingPoint, endingPoint, paint);
+    canvas.drawLine(points[0], points[1], paint);
   }
 
   @override
   bool shouldRepaint(covariant ShapePainter oldDelegate) {
-    return a != oldDelegate.a || b != oldDelegate.b;
+    if (oldDelegate.points.length != points.length) return true;
+    for (var i = 0; i < points.length; i++) {
+      if (points[i] != oldDelegate.points[i]) return true;
+    }
+    return false;
   }
 }
