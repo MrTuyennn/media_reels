@@ -12,7 +12,6 @@ class VideoPlayerPage extends StatefulWidget {
 
 class _VideoPlayerPageState extends State<VideoPlayerPage> {
   static const platform = MethodChannel('actionVideo');
-  static const platformPicker = MethodChannel('iamgePickerPlatform');
 
   @override
   void initState() {
@@ -27,28 +26,11 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     });
   }
 
-  List<Map<String, dynamic>> imagesInfo = [];
-
-  Future<void> pickImages() async {
-    try {
-      final List<dynamic> result =
-          await platformPicker.invokeMethod('pickImage');
-      if (result.isNotEmpty) {
-        setState(() {
-          imagesInfo = List<Map<String, dynamic>>.from(
-              result.map((image) => Map<String, dynamic>.from(image)));
-        });
-      }
-    } on PlatformException catch (e) {
-      print("Failed to pick images: ${e.message}");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> creationParams = <String, dynamic>{
       'link':
-          'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+          'https://cfimg.letsgostage.com/beacon_test/UGOODS_VID/95/102/U_95_102_1753943542173_04820972-6258-475e-a563-41ea1c217184.mp4',
     };
     return Scaffold(
       appBar: AppBar(
@@ -96,35 +78,6 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
               },
               child: const Text("Pause"),
             ),
-            GestureDetector(
-              onTap: () async {
-                try {
-                  pickImages();
-                } on PlatformException catch (e) {
-                  print("Failed to play video: ${e.message}");
-                }
-              },
-              child: const Text("image"),
-            ),
-            if (imagesInfo.isNotEmpty)
-              Expanded(
-                child: ListView.builder(
-                  itemCount: imagesInfo.length,
-                  itemBuilder: (context, index) {
-                    final imageInfo = imagesInfo[index];
-                    print(imageInfo['url']);
-                    return Column(
-                      children: [
-                        Image.file(File(Uri.parse(imageInfo['url']).path)),
-                        Text('Image URL: ${imageInfo['url']}'),
-                        Text('Width: ${imageInfo['width'].toStringAsFixed(2)}'),
-                        Text(
-                            'Height: ${imageInfo['height'].toStringAsFixed(2)}'),
-                      ],
-                    );
-                  },
-                ),
-              ),
           ],
         ),
       ),
